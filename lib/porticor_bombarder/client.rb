@@ -5,10 +5,13 @@ require 'securerandom'
 module PorticorBombarder
 
   class Client
-    attr_accessor *PORTICOR_REQUIRED_OPTIONS
+
+    @@porticor_require_options = %w(api_key api_secret api_url)
+
+    attr_accessor *@@porticor_require_options
 
     def initialize
-      PORTICOR_REQUIRED_OPTIONS.each do |r_port_option|
+      @@porticor_require_options.each do |r_port_option|
         raise InvalidOptions.new("You must specify your Porticor #{r_port_option}.") unless PORTICOR_CONFIGURATION[r_port_option].present?
         public_send("#{r_port_option}=", PORTICOR_CONFIGURATION[r_port_option])
       end
