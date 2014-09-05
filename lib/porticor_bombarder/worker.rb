@@ -1,6 +1,3 @@
-PORTICOR_ENCRYPTED_ATTRIBUTES = YAML.load_file(File.join('config', 'db_encryption.yml'))
-PORTICOR_STORAGE_PATH = File.join('porticor', Rails.env)
-
 module PorticorBombarder
 
   class Worker
@@ -21,11 +18,10 @@ module PorticorBombarder
 
     def self.pem_generator(pem_file_names)
       pem_file_names.each do |pem_file_name|
-        key_pair_string = PorticorBombarder::Client.new.create_and_get_encryption_key(pem_file_name)
+        key_pair_string = PorticorBombarder::Client.new.find_or_create_encryption_key(pem_file_name)
         backup(pem_file_name, key_pair_string) if PORTICOR_CONFIGURATION['backup_enabled']
       end
     end
-
 
     #Todo backup key_pair to file systems later it will be on AWS-S3 bucket
     def self.backup(filename, content)

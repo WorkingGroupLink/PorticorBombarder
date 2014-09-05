@@ -2,9 +2,6 @@ require 'hashie'
 require 'faraday_middleware'
 require 'securerandom'
 
-PORTICOR_CONFIGURATION = YAML.load_file(File.join('config', 'porticor.yml'))[Rails.env]
-PORTICOR_REQUIRED_OPTIONS = %w(api_key api_secret api_url)
-
 module PorticorBombarder
 
   class Client
@@ -17,16 +14,41 @@ module PorticorBombarder
       end
     end
 
-    def create_and_get_encryption_key(name, algorithm = 'RSA2048', export = true)
-      encryption_key = begin
-        create_encryption_key(name, algorithm, export)
-      rescue DuplicateItemError
-        get_encryption_key(name)
+    def fetch_encryption_key(name, source = 'cache')
+      begin
+        return case source
+                 when 'cache'
+                   get_encryption_key_via_cache(name)
+                 when 'file_system'
+                   get_encryption_key_via_file_system(name)
+                 when 'appliance'
+                   get_encryption_key(name)
+                 else
+                   raise Error.new('Invalid encryption_key source.')
+               end
+      rescue KeyPairCacheNotAvailable => e
+        PorticorBombarder::PorticorLogger.porticor_logger.warn e.message
+        fetch_encryption_key(name, 'file_system')
+      rescue KeyPairFileSystemNotAvailable => e
+        PorticorBombarder::PorticorLogger.porticor_logger.warn e.message
+        fetch_encryption_key(name, 'appliance')
       rescue Exception => e
-        puts e.message
+        PorticorBombarder::PorticorLogger.porticor_logger.warn e.message
         nil
       end
-      encryption_key
+    end
+
+    def get_encryption_key_via_cache(name)
+      raise KeyPairCacheNotAvailable.new('Requested key_pair not available in Cache.')
+    end
+
+    def get_encryption_key_via_file_system(name)
+      file_path = "#{PORTICOR_STORAGE_PATH}/#{name}.pem"
+      if File.exists?(file_path)
+        File.read(file_path)
+      else
+        raise KeyPairFileSystemNotAvailable.new('Requested key_pair not available in FileSystem.')
+      end
     end
 
     def get_encryption_key(name)
@@ -34,6 +56,17 @@ module PorticorBombarder
       if success?(response)
         response.body.item
       else
+        nil
+      end
+    end
+
+    def find_or_create_encryption_key(name, algorithm = 'RSA2048', export = true)
+      begin
+        create_encryption_key(name, algorithm, export)
+      rescue DuplicateItemError
+        fetch_encryption_key(name)
+      rescue Exception => e
+        PorticorBombarder::PorticorLogger.porticor_logger.warn e.message
         nil
       end
     end
@@ -117,3 +150,5 @@ module PorticorBombarder
 
   end
 end
+
+
