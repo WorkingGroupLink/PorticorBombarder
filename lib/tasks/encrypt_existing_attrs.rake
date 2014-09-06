@@ -8,25 +8,21 @@ namespace :porticor_bombarder do
       obj_class = key.to_s.classify.constantize
       case true
         when value.is_a?(Hash)
-          value.values.each do |column_name|
+          value.values.flatten.each do |column_name|
             obj_class.all.each do |obj|
-              # obj.save!
-              # obj.reload
-              # puts obj.inspect
-              # puts "encrypted_#{column_name}"
-              # puts obj.send("encrypted_#{column_name}".to_sym)
-              # puts "#{column_name}"
-              # puts obj.send(column_name.to_sym)
+              obj.send(column_name.to_sym)
+              if (_match_data = obj.send(column_name.to_sym).match(/^##([\s\S]*)##/))
+                obj.update(column_name => _match_data[1])
+              end
             end
           end
         when value.is_a?(Array)
           value.each do |column_name|
             obj_class.all.each do |obj|
-              # puts obj.inspect
-              # puts "encrypted_#{column_name}"
-              # puts obj.send("encrypted_#{column_name}".to_sym)
-              # puts "#{column_name}"
-              # puts obj.send(column_name.to_sym)
+              obj.send(column_name.to_sym)
+              if (_match_data = obj.send(column_name.to_sym).match(/^##([\s\S]*)##/))
+                obj.update(column_name => _match_data[1])
+              end
             end
           end
         else

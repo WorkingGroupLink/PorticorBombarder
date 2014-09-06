@@ -33,7 +33,18 @@ module PorticorBombarder
       obj_class.instance_eval do
         alias_method "encrypted_#{column_name}".to_sym, column_name.to_sym
         define_method(column_name.to_sym) do
-          send("encrypted_#{column_name}".to_sym).decrypt(PorticorBombarder::Client.new.fetch_encryption_key(pem_name))
+          begin
+            send("encrypted_#{column_name}".to_sym).decrypt(PorticorBombarder::Client.new.fetch_encryption_key(pem_name))
+          rescue OpenSSL::PKey::RSAError => e
+            if e.message == "padding check failed"
+              PorticorBombarder::PorticorLogger.porticor_logger.warn "It seems #{self.class.name}:#{column_name} is not with adequate space to decrypt from RSA key."
+              PorticorBombarder::PorticorLogger.porticor_logger.warn e.message
+              PorticorBombarder::PorticorLogger.porticor_logger.warn e.backtrace.join("\n")
+              "###{send("encrypted_#{column_name}".to_sym).instance_variable_get(:@instance).attributes[column_name]}##"
+            else
+              raise e
+            end
+          end
         end
       end
 
