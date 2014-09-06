@@ -23,10 +23,10 @@ module PorticorBombarder
       end
     end
 
-    #Todo backup key_pair to file systems later it will be on AWS-S3 bucket
+    #Todo: backup key_pair to file systems later it will be on AWS-S3 bucket
     def self.backup(filename, content)
       FileUtils.mkdir_p PORTICOR_STORAGE_PATH
-      file_name_with_path = "#{PORTICOR_STORAGE_PATH}/#{filename}.pem"
+      file_name_with_path = File.join(PORTICOR_STORAGE_PATH, "#{filename}.pem")
       File.open(file_name_with_path, 'w+') do |f|
         f.write(content)
       end unless File.exists?(file_name_with_path)

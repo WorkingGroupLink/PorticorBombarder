@@ -9,18 +9,18 @@ module PorticorBombarder
         if value.is_a?(Hash)
           value.each do |pem_name, columns|
             columns.each do |column_name|
-              encrypt_and_alias_attribute(key.to_s, pem_name.to_s, column_name)
+              encrypt_and_alias_attribute(key.to_s, column_name, pem_name.to_s)
             end
           end
         elsif value.is_a?(Array)
           value.each do |column_name|
-            encrypt_and_alias_attribute(key.to_s, "#{key}_#{column_name}", column_name)
+            encrypt_and_alias_attribute(key.to_s, column_name, "#{key}_#{column_name}")
           end
         end
       end
     end
 
-    def self.encrypt_and_alias_attribute(model_name, pem_name, column_name, options= {})
+    def self.encrypt_and_alias_attribute(model_name, column_name, pem_name, options= {})
       obj_class = model_name.classify.constantize
 
       obj_class.class_eval do
@@ -37,9 +37,9 @@ module PorticorBombarder
             send("encrypted_#{column_name}".to_sym).decrypt(PorticorBombarder::Client.new.fetch_encryption_key(pem_name))
           rescue OpenSSL::PKey::RSAError => e
             if e.message == "padding check failed"
-              PorticorBombarder::PorticorLogger.porticor_logger.warn "It seems #{self.class.name}:#{column_name} is not with adequate space to decrypt from RSA key."
-              PorticorBombarder::PorticorLogger.porticor_logger.warn e.message
-              PorticorBombarder::PorticorLogger.porticor_logger.warn e.backtrace.join("\n")
+              PorticorBombarder::PorticorLogger.logger.warn "It seems #{self.class.name}:#{column_name} is not with adequate space to decrypt from RSA key."
+              PorticorBombarder::PorticorLogger.logger.warn e.message
+              PorticorBombarder::PorticorLogger.logger.warn e.backtrace.join("\n")
               "###{send("encrypted_#{column_name}".to_sym).instance_variable_get(:@instance).attributes[column_name]}##"
             else
               raise e

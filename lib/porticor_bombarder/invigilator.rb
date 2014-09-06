@@ -19,14 +19,10 @@ module PorticorBombarder
       begin
         columns.each do |column_name|
           type_in_schema = model_name.to_s.classify.constantize.columns_hash[column_name].type
-          puts %Q(
-                  Warning: for ActiveRecord::Base.descendants classname #{model_name}
-                  to be encrypted column_name #{column_name}
-                  is of type #{type_in_schema}
-               ) if (type_in_schema != :text)
+          puts "#{model_name.to_s.classify}'s column #{column_name} is not of type 'text' (is of type '#{type_in_schema}') and may lead to inadequate space while storing encrypted content." unless (type_in_schema == :text)
         end
       rescue Exception => e
-        PorticorBombarder::PorticorLogger.porticor_logger.warn e.message
+        PorticorBombarder::PorticorLogger.logger.warn e.message
       end
     end
 

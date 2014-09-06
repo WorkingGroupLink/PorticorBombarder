@@ -30,13 +30,13 @@ module PorticorBombarder
                    raise Error.new('Invalid encryption_key source.')
                end
       rescue KeyPairCacheNotAvailable => e
-        PorticorBombarder::PorticorLogger.porticor_logger.warn e.message
+        PorticorBombarder::PorticorLogger.logger.warn e.message
         fetch_encryption_key(name, 'file_system')
       rescue KeyPairFileSystemNotAvailable => e
-        PorticorBombarder::PorticorLogger.porticor_logger.warn e.message
+        PorticorBombarder::PorticorLogger.logger.warn e.message
         fetch_encryption_key(name, 'appliance')
       rescue Exception => e
-        PorticorBombarder::PorticorLogger.porticor_logger.warn e.message
+        PorticorBombarder::PorticorLogger.logger.warn e.message
         nil
       end
     end
@@ -47,7 +47,7 @@ module PorticorBombarder
 
     def get_encryption_key_via_file_system(name)
       begin
-        File.read("#{PORTICOR_STORAGE_PATH}/#{name}.pem")
+        File.read(File.join(PORTICOR_STORAGE_PATH, "#{name}.pem"))
       rescue
         raise KeyPairFileSystemNotAvailable.new('Requested key_pair not available in FileSystem.')
       end
@@ -68,7 +68,7 @@ module PorticorBombarder
       rescue DuplicateItemError
         fetch_encryption_key(name)
       rescue Exception => e
-        PorticorBombarder::PorticorLogger.porticor_logger.warn e.message
+        PorticorBombarder::PorticorLogger.logger.warn e.message
         nil
       end
     end
