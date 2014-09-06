@@ -64,11 +64,18 @@ Or install it yourself as:
        backup_enabled: true # true if FileSystem storage required.
 ``` 
 
- For already existing records you need to run following rake tasks.
+ For already existing records you need to run following rake task.
   
 ```ruby
     rake porticor_bombarder:encrypt
-```   
+```
+   
+## To-do's
+
+1. Implement CacheClass.
+2. Backup key_pairs to AWS-S3.
+ 
+
 ## Contributing
 
 1. Fork it ( https://github.com/rajeevkannav/porticor_bombarder/fork )
