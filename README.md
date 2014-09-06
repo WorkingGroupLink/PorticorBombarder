@@ -1,6 +1,6 @@
 # PorticorBombarder
     
-    encrypts activerecord attributes with Porticor's encrypted keys management.    
+encrypts activerecord attributes with Porticor's encrypted keys management.    
     
 ## Installation
 
@@ -19,7 +19,8 @@ Or install it yourself as:
 ## Usage
  create db_encryption.yml to your config folder of application with structure as given below.
  Here you need to define model and attributes which need to be encrypted.
-      
+
+```yml      
     ---
     :model_name:
     - attribute_name
@@ -36,10 +37,12 @@ Or install it yourself as:
       - attribute_name
       - attribute_name
       - attribute_name
+```
 
  create porticor.yml to your config folder of application with structure as given below.
  Here you need to define porticor's instance url, key, secret.
  
+```yml      
      YOUR_RAILS_APP_ENVIRONMENT:
        api_url: 'https://xxxxxxxxxxx-xxxxxxxxxxx.d.porticor.net'
        api_key: 'XtRFf04p4m8xdiLX'
@@ -60,8 +63,7 @@ Or install it yourself as:
        api_key: 'YOUR_PORTICOR_API_KEY'
        api_secret: 'YOUR_PORTICOR_API_SECRET'
        backup_enabled: true # true if FileSystem storage required.
-
-    
+``` 
 
 ## Contributing
 
