@@ -46,10 +46,9 @@ module PorticorBombarder
     end
 
     def get_encryption_key_via_file_system(name)
-      file_path = "#{PORTICOR_STORAGE_PATH}/#{name}.pem"
-      if File.exists?(file_path)
-        File.read(file_path)
-      else
+      begin
+        File.read("#{PORTICOR_STORAGE_PATH}/#{name}.pem")
+      rescue
         raise KeyPairFileSystemNotAvailable.new('Requested key_pair not available in FileSystem.')
       end
     end

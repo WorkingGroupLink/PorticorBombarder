@@ -10,9 +10,9 @@ module PorticorBombarder
       PorticorBombarder::Manager.porticor_sandbox_registrar!
     end
 
-    # initializer 'Rails logger' do
-    #   PorticorBombarder.logger = Logger.new(STDOUT)
-    # end
+    rake_tasks do
+      Dir[File.join(File.dirname(__FILE__), '..', 'tasks', '*.rake')].each { |f| load f }
+    end
   end
 
 end

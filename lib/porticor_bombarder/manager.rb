@@ -8,7 +8,9 @@ module PorticorBombarder
       PORTICOR_ENCRYPTED_ATTRIBUTES.each do |key, value|
         if value.is_a?(Hash)
           value.each do |pem_name, columns|
-            columns.each { |column_name| encrypt_and_alias_attribute(key.to_s, pem_name.to_s, column_name) }
+            columns.each do |column_name|
+              encrypt_and_alias_attribute(key.to_s, pem_name.to_s, column_name)
+            end
           end
         elsif value.is_a?(Array)
           value.each do |column_name|
@@ -27,12 +29,14 @@ module PorticorBombarder
                                 symmetric: options[:symmetric] || :never,
                                 base64: options[:base64] || true
       end
+
       obj_class.instance_eval do
         alias_method "encrypted_#{column_name}".to_sym, column_name.to_sym
         define_method(column_name.to_sym) do
           send("encrypted_#{column_name}".to_sym).decrypt(PorticorBombarder::Client.new.fetch_encryption_key(pem_name))
         end
       end
+
     end
 
   end
