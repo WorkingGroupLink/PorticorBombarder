@@ -16,7 +16,7 @@ Or install it yourself as:
 
     $ gem install porticor_bombarder
 
- create db_encryption.yml to your config folder of application with structure as given below.
+ create porticor_attrs.yml to your config folder of application with structure as given below.
  Here you need to define model and attributes which need to be encrypted.
 
 ```yml      

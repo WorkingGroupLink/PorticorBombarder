@@ -1,6 +1,6 @@
 require 'rake'
 namespace :porticor_bombarder do
-  PORTICOR_ENCRYPTED_ATTRIBUTES = YAML.load_file(File.join('config', 'db_encryption.yml'))
+  PORTICOR_ENCRYPTED_ATTRIBUTES = YAML.load_file(File.join('config', 'porticor_attrs.yml'))
 
   desc 'encrypt existing attributes'
   task :encrypt => :environment do
