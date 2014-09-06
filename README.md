@@ -16,7 +16,6 @@ Or install it yourself as:
 
     $ gem install porticor_bombarder
 
-## Usage
  create db_encryption.yml to your config folder of application with structure as given below.
  Here you need to define model and attributes which need to be encrypted.
 
@@ -65,6 +64,11 @@ Or install it yourself as:
        backup_enabled: true # true if FileSystem storage required.
 ``` 
 
+ For already existing records you need to run following rake tasks.
+  
+```ruby
+    rake porticor_bombarder:encrypt
+```   
 ## Contributing
 
 1. Fork it ( https://github.com/rajeevkannav/porticor_bombarder/fork )
