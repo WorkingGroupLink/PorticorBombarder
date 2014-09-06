@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email = ['rajeevsharma86@gmail.com']
   spec.summary = %q{Porticor + StrongBox}
   spec.description = %q{Encrypt activerecord attributes with Porticor's encrypted keys management.}
-  spec.homepage = ''
+  spec.homepage = 'https://github.com/rajeevkannav/PorticorBombarder'
   spec.license = 'MIT'
 
   spec.files = `git ls-files -z`.split("\x0")
@@ -19,15 +19,15 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_development_dependency 'bundler', '~> 1.6'
-  spec.add_development_dependency 'rake'
+  spec.add_development_dependency 'rake', '~> 0.8'
 
   #
   #runtime_dependencies
   #
-  spec.add_runtime_dependency 'rails'
-  spec.add_runtime_dependency 'activerecord'
-  spec.add_runtime_dependency 'faraday_middleware'
-  spec.add_runtime_dependency 'hashie'
-  spec.add_runtime_dependency 'strongbox'
+  spec.add_runtime_dependency 'rails', '~> 4.0'
+  spec.add_runtime_dependency 'activerecord', '~> 4.0'
+  spec.add_runtime_dependency 'faraday_middleware', '~> 0.9'
+  spec.add_runtime_dependency 'hashie', '~> 3.3'
+  spec.add_runtime_dependency 'strongbox', '~> 0.7'
 
 end
