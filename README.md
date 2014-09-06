@@ -22,17 +22,17 @@ Or install it yourself as:
 
 ```yml      
     ---
-    :model_name:
+    :model_name_1:
     - attribute_name
-    :model_name:
+    :model_name_2:
       :specific_pem_file_name:
       - attribute_name
       - attribute_name
-    :avatar:
+    :model_name_3:
       :specific_pem_file_name:
       - attribute_name
       - attribute_name
-    :assistant:
+    :model_name_4:
       :specific_pem_file_name:
       - attribute_name
       - attribute_name
@@ -45,19 +45,19 @@ Or install it yourself as:
 ```yml      
      YOUR_RAILS_APP_ENVIRONMENT:
        api_url: 'https://xxxxxxxxxxx-xxxxxxxxxxx.d.porticor.net'
-       api_key: 'XtRFf04p4m8xdiLX'
-       api_secret: 'Kane4BVE7untq3FV5Bm0WRgK1yvQUWq5'
-       backup_enabled: true #true if FileSystem storage required.
+       api_key: 'YOUR_PORTICOR_API_KEY'
+       api_secret: 'YOUR_PORTICOR_API_SECRET'
+       backup_enabled: true # true if FileSystem storage required.
      YOUR_RAILS_APP_ENVIRONMENT:
        api_url: 'https://xxxxxxxxxxx-xxxxxxxxxxx.d.porticor.net'
-       api_key: 'XtRFf04p4m8xdiLX'
-       api_secret: 'Kane4BVE7untq3FV5Bm0WRgK1yvQUWq5'
-       backup_enabled: true #if FileSystem storage required.
+       api_key: 'YOUR_PORTICOR_API_KEY'
+       api_secret: 'YOUR_PORTICOR_API_SECRET'
+       backup_enabled: true # true if FileSystem storage required.
      YOUR_RAILS_APP_ENVIRONMENT:
        api_url: 'https://xxxxxxxxxxx-xxxxxxxxxxx.d.porticor.net'
-       api_key: 'XtRFf04p4m8xdiLX'
-       api_secret: 'Kane4BVE7untq3FV5Bm0WRgK1yvQUWq5'
-       backup_enabled: true #true if FileSystem storage required.
+       api_key: 'YOUR_PORTICOR_API_KEY'
+       api_secret: 'YOUR_PORTICOR_API_SECRET'
+       backup_enabled: true # true if FileSystem storage required.
      YOUR_RAILS_APP_ENVIRONMENT:
        api_url: 'https://xxxxxxxxxxx-xxxxxxxxxxx.d.porticor.net'
        api_key: 'YOUR_PORTICOR_API_KEY'
