@@ -87,12 +87,21 @@ module PorticorBombarder
       end
     end
 
-    def temp_cred
-      time = Time.now.to_i
-      nonce = generate_nonce
-      sig = sign_cred_request(nonce, time)
 
-      @@temp_cred = begin
+    def get_time
+      response = get('/api/creds/get_time')
+      if success?(response)
+        response.body.time
+      else
+        nil
+      end
+    end
+
+    def temp_cred
+      @@temp_cred ||= begin
+        time = get_time
+        nonce = generate_nonce
+        sig = sign_cred_request(nonce, time)
         response = get('/api/creds/get_temporary_credential',
                        api_key_id: api_key,
                        time: time,
