@@ -67,7 +67,7 @@ Or install it yourself as:
  For already existing records you need to run following rake task.
   
 ```ruby
-    rake porticor_bombarder:encrypt
+    rake porticor_bombarder:encrypt[batch_size]   # encrypt existing attributes with batches default size is 100
 ```
    
 ## To-do's
