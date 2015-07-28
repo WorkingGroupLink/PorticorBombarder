@@ -28,6 +28,6 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'activerecord', '~> 4.0'
   spec.add_runtime_dependency 'faraday_middleware', '~> 0.9'
   spec.add_runtime_dependency 'hashie', '~> 3.3'
-  spec.add_runtime_dependency 'strongbox', '~> 0.7'
+  spec.add_runtime_dependency 'strongbox', github: 'rajeevkannav/strongbox'
 
 end
